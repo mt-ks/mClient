@@ -15,6 +15,7 @@
     },
     "require": {
         "ext-json": "*",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "php": ">=7.4.*"
     }
 }
