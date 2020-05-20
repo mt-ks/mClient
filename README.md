@@ -1,2 +1,2 @@
 # mClient
-PHP Curl Class
+PHP Curl Class V1
