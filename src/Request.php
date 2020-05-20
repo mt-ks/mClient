@@ -309,7 +309,6 @@ class Request
     }
 
 
-
     /**
      * @param $response
      * @return array
