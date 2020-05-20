@@ -1,5 +1,5 @@
 {
-  "name": "mClient",
+  "name": "mehmetbeyhz/mClient",
   "description": "mClient PHP Curl Class",
   "keywords": [
     "CURL",
@@ -16,7 +16,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "MClient\\" : "src"
+      "MClient\\": "src"
     }
   },
   "require": {
