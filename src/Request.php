@@ -308,7 +308,6 @@ class Request
         return json_decode($this->requestResponse, $assoc, 512, JSON_THROW_ON_ERROR);
     }
 
-
     /**
      * @param $response
      * @return array
