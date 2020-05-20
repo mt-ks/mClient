@@ -26,6 +26,29 @@ try{
         ->addCurlOptions(CURLOPT_RETURNTRANSFER,false)
         // ->setProxy('proxyUser:proxyPass@127.0.0.1:8080')
         // ->setJsonPost(true) :: format => {"username":"mt.ks","password":"123456"}
+        ->execute();
+        // ->getDecodedResponse(true)  => true : as Array, false : as Object
+    print_r($r->getResponse()); // Direct Response
+    print_r($r->getHeaderLine('http_code')); // response headers key
+    print_r($r->getResponseHeaders()); // response headers as array
+}catch (Exception $e)
+{
+    echo $e->getMessage();
+}
+```
+
+
+
+## POST
+```php
+<?php 
+try{
+    $r = (new Request('https://api.example.com/login'))
+        ->addPost('username','mt.ks')
+        ->addPost('password','123456')
+        ->addCurlOptions(CURLOPT_RETURNTRANSFER,false)
+        // ->setProxy('proxyUser:proxyPass@127.0.0.1:8080')
+        // ->setJsonPost(true) :: format => {"username":"mt.ks","password":"123456"}
         ->execute()
         // ->getDecodedResponse(true)  => true : as Array, false : as Object
         ->getResponse(); // direct page response
