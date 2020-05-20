@@ -1,4 +1,19 @@
 {
+  "name": "mClient",
+  "description": "mClient PHP Curl Class",
+  "keywords": [
+    "CURL",
+    "Php Curl Api",
+    "Request",
+    "POST|GET|DELETE|PUT"
+  ],
+  "authors": [
+    {
+      "name": "mehmetbeyhz",
+      "email": "mehmetbeyhz@gmail.com",
+      "role": "Founder"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "MClient\\" : "src"
