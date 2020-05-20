@@ -1,5 +1,6 @@
 {
     "name": "mehmetbeyhz/mclient",
+    "version": "1.0",
     "description": "Php Curl CLass",
     "license": "MIT",
     "authors": [
