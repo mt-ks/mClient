@@ -156,7 +156,7 @@ class Request
      */
     public function getRequestParams() : ?string
     {
-        return $this->hasParams() === true ?  http_build_query($this->_params) : null;
+        return $this->hasParams() === true ?  '?'.http_build_query($this->_params) : null;
     }
 
     /**
