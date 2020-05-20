@@ -1,25 +1,20 @@
 {
-  "name": "mehmetbeyhz/mclient",
-  "description": "mClient PHP Curl Class",
-  "keywords": [
-    "CURL",
-    "Php Curl Api",
-    "Request"
-  ],
-  "authors": [
-    {
-      "name": "mehmetbeyhz",
-      "email": "mehmetbeyhz@gmail.com",
-      "role": "Founder"
+    "name": "mehmetbeyhz/mclient",
+    "description": "Php Curl CLass",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "mehmetbeyhz",
+            "email": "mehmetbeyhz@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MClient\\": "src"
+        }
+    },
+    "require": {
+        "ext-json": "*",
+        "ext-curl": "*"
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "MClient\\": "src"
-    }
-  },
-  "require": {
-    "ext-json": "*",
-    "ext-curl": "*"
-  }
 }
