@@ -41,7 +41,7 @@ class Request
      * Extra curl options
      * @var array
      */
-    protected array $_curl    = [];
+    public array $_curl    = [];
 
     /**
      * Post as json format
@@ -49,17 +49,7 @@ class Request
      */
     protected bool  $jsonPost = false;
 
-    /**
-     * Response
-     * @var string
-     */
-    protected ?string $requestResponse = null;
 
-    /**
-     * Response Headers
-     * @var array
-     */
-    protected array $requestResponseHeaders = [];
 
     public function __construct($address)
     {
@@ -95,7 +85,7 @@ class Request
     /**
      * @return bool
      */
-    protected function hasUri() : bool
+    public function hasUri() : bool
     {
         return ($this->uri !== '');
     }
@@ -115,7 +105,7 @@ class Request
     /**
      * @return bool
      */
-    protected function hasPosts() : bool
+    public function hasPosts() : bool
     {
         return ($this->_posts && count($this->_posts) > 0);
     }
@@ -202,7 +192,7 @@ class Request
         return $this;
     }
 
-    protected function hasExtraCurlOptions() : bool
+    public function hasExtraCurlOptions() : bool
     {
         return ($this->_curl && count($this->_curl) > 0);
     }
@@ -218,119 +208,13 @@ class Request
 
 
     /**
-     * @return $this
+     * @return HttpInterface
      * @throws JsonException
      */
-    public function execute() : self
+    public function execute() : HttpInterface
     {
-        if (!$this->hasUri())
-        {
-            throw new InvalidArgumentException('Please set uri');
-        }
-        $curl = curl_init();
-        $options = [
-            CURLOPT_URL => $this->getRequestUri(),
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_FOLLOWLOCATION => TRUE,
-            CURLOPT_HEADER         => TRUE,
-        ];
-
-        if ($this->hasHeader()):
-            $options[CURLOPT_HTTPHEADER] = $this->getRequestHeaders();
-        endif;
-
-
-        if ($this->hasPosts()) :
-            $options[CURLOPT_POST] = TRUE;
-            $options[CURLOPT_POSTFIELDS] = $this->getRequestPosts();
-        endif;
-
-        if ($this->hasExtraCurlOptions()):
-            foreach ($this->_curl as $key => $value){
-                $options[$key] = $value;
-            }
-        endif;
-        curl_setopt_array($curl,$options);
-        $resp = curl_exec($curl);
-        $header_len = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $header = substr($resp, 0, $header_len);
-        $header = $this->getHeadersFromResponse($header);
-        $resp = (substr($resp, $header_len));
-        curl_close($curl);
-
-        $this->requestResponse = $resp;
-        $this->requestResponseHeaders = $header;
-        return $this;
+        return new HttpInterface($this);
     }
-
-
-
-    /**
-     * @return array
-     */
-    public function getResponseHeaders() : array
-    {
-        return $this->requestResponseHeaders;
-    }
-
-    /**
-     * @param $key
-     * @return mixed|null
-     */
-    public function getHeaderLine($key)
-    {
-        if (is_array($this->requestResponseHeaders) && isset($this->requestResponseHeaders[$key])) {
-            return $this->requestResponseHeaders[$key];
-        }
-        return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function getResponse() : string
-    {
-        return $this->requestResponse;
-    }
-
-
-    /**
-     * @param bool $assoc
-     * @return mixed
-     * @throws JsonException
-     */
-    public function getDecodedResponse($assoc = true)
-    {
-        if (!$this->requestResponse)
-        {
-            throw new RuntimeException('No Response From Server');
-        }
-        return json_decode($this->requestResponse, $assoc, 512, JSON_THROW_ON_ERROR);
-    }
-
-    /**
-     * @param $response
-     * @return array
-     */
-    protected function getHeadersFromResponse($response) : array
-    {
-        $headers = [];
-
-        $header_text = substr($response, 0, strpos($response, "\r\n\r\n"));
-
-        foreach (explode("\r\n", $header_text) as $i => $line) {
-            if ($i === 0) {
-                $headers['http_code'] = $line;
-            } else {
-                [$key, $value] = explode(': ', $line);
-
-                $headers[$key] = $value;
-            }
-        }
-
-        return $headers;
-    }
-
 
 
 }
