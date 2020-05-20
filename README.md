@@ -1,5 +1,11 @@
 # mClient
-PHP Curl Class
+
+PHP Curl Class. Require php >= 7.4
+
+Installation
+```
+composer require mehmetbeyhz/mclient:dev-master
+```
 
 ## GET
 ```php
