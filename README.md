@@ -30,6 +30,8 @@ try{
     print_r($r->getResponse()); // Direct Response
     print_r($r->getHeaderLine('http_code')); // response headers key
     print_r($r->getResponseHeaders()); // response headers as array
+    print_r($r->getCookies()); // key1=value1; key2=value2; 
+    print_r($r->getCookies('key1')); // value1
 }catch (Exception $e)
 {
     echo $e->getMessage();
