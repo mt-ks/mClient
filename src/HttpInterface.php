@@ -11,6 +11,7 @@ use RuntimeException;
 class HttpInterface
 {
     protected Request $_parent;
+    protected array $_cookies = [];
     /**
      * Response
      * @var string
@@ -117,7 +118,7 @@ class HttpInterface
      * @param $response
      * @return array
      */
-    public function getHeadersFromResponse($response) : array
+    protected function getHeadersFromResponse($response) : array
     {
         $headers = [];
 
@@ -130,11 +131,26 @@ class HttpInterface
                 [$key, $value] = explode(': ', $line);
 
                 $headers[$key] = $value;
+
+                if (strtolower($key) === 'set-cookie')
+                {
+                    $this->_cookies[] = $value;
+                }
+
             }
         }
 
         return $headers;
     }
 
+
+    /**
+     * @param string $key
+     * @return array|mixed|null
+     */
+    public function getCookies($key = '')
+    {
+        return (new HttpCookies($this->_cookies))->getCookie($key);
+    }
 
 }
