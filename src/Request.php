@@ -66,11 +66,44 @@ class Request
 
     /**
      * @param $proxy
-     * @return $this
+     * @return Request
      */
-    public function setProxy($proxy) : self
+    public function setProxy($proxy) : Request
     {
         $this->addCurlOptions(CURLOPT_PROXY,$proxy);
+        return $this;
+    }
+
+    /**
+     * @param $userAgent
+     * @return Request
+     */
+    public function setUserAgent($userAgent) : Request
+    {
+        $this->addCurlOptions(CURLOPT_USERAGENT,$userAgent);
+        $this->addHeader('User-Agent',$userAgent);
+        return $this;
+    }
+
+    /**
+     * @param $cookieString
+     * @return Request
+     */
+    public function setCookieString($cookieString) : Request
+    {
+        $this->addCurlOptions(CURLOPT_COOKIE,$cookieString);
+        return $this;
+    }
+
+    /**
+     * @param $cookieFile
+     * @param null $cookieJar
+     * @return $this
+     */
+    public function setCookieFile($cookieFile,$cookieJar = null) : Request
+    {
+        $this->addCurlOptions(CURLOPT_COOKIEFILE,$cookieFile);
+        $this->addCurlOptions(CURLOPT_COOKIEJAR, $cookieJar ?? $cookieFile);
         return $this;
     }
 

@@ -20,7 +20,7 @@ class HttpCookies
             if (isset($parseValues[0]))
             {
                 $keyValue = explode('=',$parseValues[0]);
-                if (isset($keyValue[0]) && isset($keyValue[1]))
+                if (isset($keyValue[0], $keyValue[1]))
                 {
                     $this->_cookies[trim($keyValue[0])] = trim($keyValue[1]);
                 }
