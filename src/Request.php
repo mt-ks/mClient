@@ -49,6 +49,10 @@ class Request
      */
     protected bool  $jsonPost = false;
 
+    /**
+     * @var mixed
+     */
+    private $identifier;
 
 
     public function __construct($address)
@@ -63,6 +67,7 @@ class Request
     {
         $this->uri = $address;
     }
+
 
     /**
      * @param $proxy
@@ -225,18 +230,42 @@ class Request
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getCurlOptions() : array
+    {
+        return $this->_curl;
+    }
+
     public function hasExtraCurlOptions() : bool
     {
         return ($this->_curl && count($this->_curl) > 0);
     }
 
-    public function setJsonPost($bool) : void
+    public function setJsonPost($bool) : self
     {
         $this->jsonPost = $bool;
+        return $this;
     }
 
     public function isJsonPost() : bool {
         return $this->jsonPost;
+    }
+
+    public function setIdentifierParams($data) : Request
+    {
+        $this->identifier = $data;
+        return $this;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getIdentifierParams()
+    {
+        return $this->identifier;
     }
 
 
