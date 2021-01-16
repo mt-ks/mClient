@@ -43,7 +43,7 @@ class MultiRequest
 
         if ($request->hasPosts()):
             $options[CURLOPT_POST] = TRUE;
-            $options[CURLOPT_POSTFIELDS] = $this->_parent->getRequestPosts();
+            $options[CURLOPT_POSTFIELDS] = $request->getRequestPosts();
         endif;
 
         foreach ($this->defaultOptions as $k => $v):
