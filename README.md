@@ -43,7 +43,7 @@ try{
 ```php
 <?php 
 try{
-    $r = (new Request('https://api.example.com/login'))
+    $r = Request::post('https://api.example.com/login')
         ->addPost('username','mt.ks')
         ->addPost('password','123456')
         ->addCurlOptions(CURLOPT_RETURNTRANSFER,false)
