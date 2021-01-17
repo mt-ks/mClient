@@ -3,7 +3,7 @@
 
 namespace MClient;
 
-class MultiRequest
+class MultiRequest extends MultiResponse
 {
     /**
      * @var Request[]
@@ -19,8 +19,10 @@ class MultiRequest
         CURLOPT_HEADER => TRUE
     ];
 
+
     /**
      * @param Request $request
+     * @return $this
      */
     public function add(Request $request)
     {
@@ -81,13 +83,11 @@ class MultiRequest
         } while($index > 0);
 
         foreach($multiCurl as $k => $ch) {
-            $header_len = curl_getinfo($ch,CURLINFO_HEADER_SIZE);
-            $content    = curl_multi_getcontent($ch);
-            $response   = (substr($content, $header_len));
+            $header_len     = curl_getinfo($ch,CURLINFO_HEADER_SIZE);
+            $content        = curl_multi_getcontent($ch);
+            $response       = (substr($content, $header_len));
             $header_content = substr($content, 0,$header_len);
-
-
-            $result[$k] = (new MultiResponse($response,$header_content,$requestTMP[$k]));
+            $result[$k]     = $this->addResponse($response,$header_content,$requestTMP[$k]);
 
             curl_multi_remove_handle($multiHandle, $ch);
         }

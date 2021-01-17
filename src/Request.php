@@ -9,6 +9,8 @@ use RuntimeException;
 /**
  * Class Request
  * @package MClient
+ * @method static Request get($uri)
+ * @method static Request post($uri)
  */
 class Request
 {
@@ -278,5 +280,19 @@ class Request
         return new HttpInterface($this);
     }
 
+    /**
+     * @param $name
+     * @param $arguments
+     * @return Request
+     */
+    public static function __callStatic($name, $arguments) : Request
+    {
+        $self = new self($arguments[0]);
+        $name = strtolower($name);
+        if ($name === "POST"){
+            return $self->addCurlOptions(CURLOPT_POST,true);
+        }
+        return $self;
+    }
 
 }

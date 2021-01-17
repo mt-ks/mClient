@@ -11,7 +11,7 @@ composer require mehmetbeyhz/mclient:dev-master
 ```php
 <?php 
 try{
-    $r = (new Request('https://api.github.com/users/mehmetbeyhz'))
+    $r = Request::get('https://api.github.com/users/mehmetbeyhz')
         ->addCurlOptions(CURLOPT_USERAGENT,'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36')
         ->execute()
         ->getResponse();
@@ -26,7 +26,7 @@ Request Details
 ```php
 <?php 
 try{
-    $r = (new Request('https://api.github.com/users/mehmetbeyhz'))->execute();
+    $r = Request::get('https://api.github.com/users/mehmetbeyhz')->execute();
     print_r($r->getResponse()); // Direct Response
     print_r($r->getHeaderLine('http_code')); // response headers key
     print_r($r->getResponseHeaders()); // response headers as array
@@ -65,22 +65,20 @@ try{
 $multiCurl = new MultiRequest();
 
 
-$multiCurl->add((new Request("https://jsonplaceholder.typicode.com/todos/1"))
+$multiCurl->add(Request::get("https://jsonplaceholder.typicode.com/todos/1")
     ->setUserAgent("my useragent")
 );
 
-$multiCurl->add((new Request("https://jsonplaceholder.typicode.com/todos/2"))
+$multiCurl->add(Request::get("https://jsonplaceholder.typicode.com/todos/2")
     ->setUserAgent("my useragent")
 );
 
-$multiCurl->add((new Request("https://jsonplaceholder.typicode.com/todos/3"))
+$multiCurl->add(Request::get("https://jsonplaceholder.typicode.com/todos/3")
     ->setUserAgent("my useragent")
-    ->setIdentifierParams("")
-    ->setIdentifierParams(['clientId' => 5])
+    ->setIdentifierParams(['client' => 1])
 );
 
-
-$multiCurl->add((new Request("https://jsonplaceholder.typicode.com/todos/4"))
+$multiCurl->add(Request::get("https://jsonplaceholder.typicode.com/todos/4")
     ->setUserAgent("my useragent")
     ->setIdentifierParams(['clientId' => 80])
 );

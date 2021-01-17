@@ -4,17 +4,26 @@
 namespace MClient;
 
 
-class MultiResponse
+abstract class MultiResponse
 {
     private ?string $response;
     private array $header = [];
     private array $cookies = [];
     private Request $request;
-    public function __construct($response,$header,$request)
+
+
+    /**
+     * @param $response
+     * @param $header
+     * @param $request
+     * @return $this
+     */
+    public function addResponse($response,$header,$request)
     {
         $this->response = $response;
         $this->request  = $request;
         $this->parseHeader($header);
+        return $this;
     }
 
     /**
