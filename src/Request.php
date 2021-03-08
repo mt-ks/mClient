@@ -165,7 +165,7 @@ class Request
             return json_encode($this->_posts, JSON_THROW_ON_ERROR);
         endif;
         if ($this->isIgPost()):
-            return http_build_query(['signed_body' => 'SIGNATURE'.json_encode($this->_posts,JSON_THROW_ON_ERROR)]);
+            return http_build_query(['signed_body' => 'SIGNATURE.'.json_encode($this->_posts,JSON_THROW_ON_ERROR)]);
         endif;
         return http_build_query($this->_posts);
     }
