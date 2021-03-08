@@ -56,6 +56,10 @@ class Request
      */
     private $identifier;
 
+    /**
+     * @var bool
+     */
+    protected bool $igPost = false;
 
     public function __construct($address)
     {
@@ -160,6 +164,9 @@ class Request
         if ($this->isJsonPost()):
             return json_encode($this->_posts, JSON_THROW_ON_ERROR);
         endif;
+        if ($this->isIgPost()):
+            return http_build_query(['signed_body' => 'SIGNATURE'.json_encode($this->_posts,JSON_THROW_ON_ERROR)]);
+        endif;
         return http_build_query($this->_posts);
     }
 
@@ -253,6 +260,23 @@ class Request
 
     public function isJsonPost() : bool {
         return $this->jsonPost;
+    }
+
+    /**
+     * @param $bool
+     * @return $this
+     */
+    public function setIsIgPost($bool) : self
+    {
+        $this->igPost = $bool;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIgPost() : bool {
+        return $this->igPost;
     }
 
     public function setIdentifierParams($data) : Request
