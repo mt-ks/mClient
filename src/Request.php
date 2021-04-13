@@ -157,15 +157,14 @@ class Request
 
     /**
      * @return string
-     * @throws JsonException
      */
     public function getRequestPosts() : string
     {
         if ($this->isJsonPost()):
-            return json_encode($this->_posts, JSON_THROW_ON_ERROR);
+            return json_encode($this->_posts);
         endif;
         if ($this->isIgPost()):
-            return http_build_query(['signed_body' => 'SIGNATURE.'.json_encode($this->_posts,JSON_THROW_ON_ERROR)]);
+            return http_build_query(['signed_body' => 'SIGNATURE.'.json_encode($this->_posts)]);
         endif;
         return http_build_query($this->_posts);
     }
@@ -297,7 +296,6 @@ class Request
 
     /**
      * @return HttpInterface
-     * @throws JsonException
      */
     public function execute() : HttpInterface
     {

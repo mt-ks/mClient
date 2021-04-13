@@ -13,9 +13,9 @@ class HttpInterface
     protected Request $_parent;
     protected array $_cookies = [];
     protected ?string $curl_error = null;
+
     /**
-     * Response
-     * @var string
+     * @var string|false|null
      */
     protected ?string $requestResponse = null;
 
@@ -27,7 +27,6 @@ class HttpInterface
     /**
      * HttpInterface constructor.
      * @param Request $request
-     * @throws JsonException
      */
     public function __construct(Request $request)
     {
@@ -123,7 +122,6 @@ class HttpInterface
     /**
      * @param bool $assoc
      * @return mixed
-     * @throws JsonException
      */
     public function getDecodedResponse($assoc = true)
     {
@@ -131,7 +129,7 @@ class HttpInterface
         {
             throw new RuntimeException('No Response From Server');
         }
-        return json_decode($this->requestResponse, $assoc, 512, JSON_THROW_ON_ERROR);
+        return json_decode($this->requestResponse, $assoc, 512);
     }
 
     /**
