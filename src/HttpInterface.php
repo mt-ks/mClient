@@ -12,6 +12,7 @@ class HttpInterface
 {
     protected Request $_parent;
     protected array $_cookies = [];
+    protected ?string $curl_error = null;
     /**
      * Response
      * @var string
@@ -60,6 +61,9 @@ class HttpInterface
         endif;
         curl_setopt_array($curl,$options);
         $resp = curl_exec($curl);
+        if (curl_errno($curl)) {
+            $this->curl_error = curl_error($curl);
+        }
         $header_len = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         $header = substr($resp, 0, $header_len);
         $header = $this->getHeadersFromResponse($header);
@@ -77,6 +81,22 @@ class HttpInterface
     public function getResponseHeaders() : array
     {
         return $this->requestResponseHeaders;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasCurlError() : bool
+    {
+        return $this->curl_error !== null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurlError() : string
+    {
+        return $this->curl_error;
     }
 
     /**
@@ -142,6 +162,7 @@ class HttpInterface
 
         return $headers;
     }
+
 
 
     /**
