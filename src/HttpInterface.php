@@ -67,7 +67,7 @@ class HttpInterface
 
         $header_text = substr($resp, 0, strpos($resp, "\r\n\r\n"));
         $header = $this->getHeadersFromResponse($header_text);
-        $resp = trim(str_replace(" ","",(substr($resp, strlen($header_text)))));
+        $resp = trim(substr($resp, strlen($header_text)));
         curl_close($curl);
 
         $this->requestResponse = $resp;
