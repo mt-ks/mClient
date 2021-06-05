@@ -63,10 +63,11 @@ class HttpInterface
         if (curl_errno($curl)) {
             $this->curl_error = curl_error($curl);
         }
-        $header_len = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        $header = substr($resp, 0, $header_len);
-        $header = $this->getHeadersFromResponse($header);
-        $resp = (substr($resp, $header_len));
+
+
+        $header_text = substr($resp, 0, strpos($resp, "\r\n\r\n"));
+        $header = $this->getHeadersFromResponse($header_text);
+        $resp = trim(str_replace(" ","",(substr($resp, strlen($header_text)))));
         curl_close($curl);
 
         $this->requestResponse = $resp;
@@ -133,14 +134,12 @@ class HttpInterface
     }
 
     /**
-     * @param $response
+     * @param $header_text
      * @return array
      */
-    protected function getHeadersFromResponse($response) : array
+    protected function getHeadersFromResponse($header_text) : array
     {
         $headers = [];
-
-        $header_text = substr($response, 0, strpos($response, "\r\n\r\n"));
 
         foreach (explode("\r\n", $header_text) as $i => $line) {
             if ($i === 0) {
