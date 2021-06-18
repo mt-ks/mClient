@@ -64,12 +64,13 @@ class HttpInterface
             $this->curl_error = curl_error($curl);
         }
 
-        $header_text = substr($resp, 0, strpos($resp, "\r\n\r\n"));
         $hard_header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         $current_header   = substr($resp, 0, $hard_header_size);
 
         $header = $this->getHeadersFromResponse($current_header);
-        $resp = trim(substr($resp, strlen($header_text)));
+        $resp = trim(substr($resp, $hard_header_size));
+
+
         curl_close($curl);
 
         $this->requestResponse = $resp;
