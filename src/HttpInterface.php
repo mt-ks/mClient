@@ -35,7 +35,7 @@ class HttpInterface
         {
             throw new InvalidArgumentException('Please set uri');
         }
-        $curl = curl_init();
+        $curl = \curl_init();
         $options = [
             CURLOPT_URL => $this->_parent->getRequestUri(),
             CURLOPT_RETURNTRANSFER => TRUE,
@@ -64,9 +64,11 @@ class HttpInterface
             $this->curl_error = curl_error($curl);
         }
 
-
         $header_text = substr($resp, 0, strpos($resp, "\r\n\r\n"));
-        $header = $this->getHeadersFromResponse($header_text);
+        $hard_header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        $current_header   = substr($resp, 0, $hard_header_size);
+
+        $header = $this->getHeadersFromResponse($current_header);
         $resp = trim(substr($resp, strlen($header_text)));
         curl_close($curl);
 
@@ -145,6 +147,10 @@ class HttpInterface
             if ($i === 0) {
                 $headers['http_code'] = $line;
             } else {
+                $splitKV = explode(': ',$line);
+                if (!isset($splitKV[0], $splitKV[1])){
+                    continue;
+                }
                 [$key, $value] = explode(': ', $line);
 
                 $headers[$key] = $value;
