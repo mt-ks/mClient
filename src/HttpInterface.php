@@ -13,6 +13,7 @@ class HttpInterface
     protected Request $_parent;
     protected array $_cookies = [];
     protected ?string $curl_error = null;
+    protected ?int $curl_error_no = null;
 
     /**
      * @var string|false|null
@@ -62,6 +63,7 @@ class HttpInterface
         $resp = curl_exec($curl);
         if (curl_errno($curl)) {
             $this->curl_error = curl_error($curl);
+            $this->curl_error_no = curl_errno($curl);
         }
 
 
@@ -101,6 +103,10 @@ class HttpInterface
     public function getCurlError() : string
     {
         return $this->curl_error;
+    }
+
+    public function getCurlErrorNo(){
+        return $this->curl_error_no;
     }
 
     /**
