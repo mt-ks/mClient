@@ -64,6 +64,7 @@ class HttpInterface
             $this->curl_error = curl_error($curl);
         }
 
+
         $hard_header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
         $current_header   = substr($resp, 0, $hard_header_size);
 
@@ -145,7 +146,7 @@ class HttpInterface
         $headers = [];
 
         foreach (explode("\r\n", $header_text) as $i => $line) {
-            if ($i === 0) {
+            if (strpos(strtolower($line), "http/") !== false) {
                 $headers['http_code'] = $line;
             } else {
                 $splitKV = explode(': ',$line);

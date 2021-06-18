@@ -17,6 +17,6 @@
     "require": {
         "ext-json": "*",
         "ext-curl": "*",
-        "php": ">=8.0"
+        "php": ">=7.4"
     }
 }
